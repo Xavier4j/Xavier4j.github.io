@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>恋爱计时器</title>
+    <style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        font-family: Helvetica Neue, Helvetica, Hiragino Sans GB,
+          Microsoft YaHei, Arial, sans-serif;
+        background-image: url("images/cover_bg_1.jpg");
+        background-size: auto, 100%;
+        background-repeat: no-repeat;
+        background-position: center 0;
+        font-size: 75%;
+        margin: 0;
+      }
+
+      .overlay {
+        position: absolute !important;
+        width: 100%;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 1;
+        background: rgba(0, 0, 0, 0.4);
+      }
+
+      h2 {
+        font-size: 240%;
+        font-weight: 400;
+        font-family: "Comic Sans MS", cursive;
+      }
+
+      .content {
+        color: white;
+        position: absolute;
+        width: 100%;
+        top: 45%;
+        transform: translate(0, -50%);
+        text-align: center;
+        z-index: 2;
+      }
+
+      .timer {
+        font-size: 180%;
+        line-height: 1.5;
+        margin: 1em 0;
+      }
+
+      .timer b {
+        color: rgb(253, 99, 125);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="overlay"></div>
+      <div class="content">
+        <h2>傻宝儿，我们已经在一起</h2>
+        <div class="timer">{{d}} 天 {{h}} 时 {{m}} 分 {{s}} 秒</div>
+      </div>
+    </div>
+  </body>
+  <script src="js/vue.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        d: 0,
+        h: 0,
+        m: 0,
+        s: 0,
+      },
+      methods: {
+        timer() {
+          var start = new Date(2021, 10, 17, 17, 15, 0, 0); // 2021/11/18 17:15:00
+          console.log(start);
+          console.log(new Date());
+          var time = new Date() - start;
+          console.log(time);
+          this.d = ~~(time / 1000 / 60 / 60 / 24);
+          this.h = ~~((time / 1000 / 60 / 60) % 24);
+          console.log(this.h);
+          console.log(this.h < 10);
+          if (this.h < 10) {
+            this.h = "0" + this.h;
+          }
+          this.m = ~~((time / 1000 / 60) % 60);
+          if (this.m < 10) {
+            this.m = "0" + this.m;
+          }
+
+          this.s = ~~((time / 1000) % 60);
+          if (this.s < 10) {
+            this.s = "0" + this.s;
+          }
+        },
+      },
+      mounted() {
+        this.timer();
+        setInterval(this.timer, 1000);
+      },
+    });
+  </script>
+</html>
